@@ -179,16 +179,30 @@ export function filterTodayNews(news: NewsItem[]): NewsItem[] {
   return news.filter((item) => item.timestamp > oneDayAgo);
 }
 
-// 去重（基于标题相似度）
+// 去重（基于标题相似度 + 来源）
 export function deduplicateNews(news: NewsItem[]): NewsItem[] {
   const seen = new Set<string>();
   const result: NewsItem[] = [];
 
   for (const item of news) {
-    const normalizedTitle = item.title.toLowerCase().replace(/[^\w\s]/g, '').trim();
+    // 标准化标题：转小写、移除特殊字符、空格标准化
+    const normalizedTitle = item.title
+      .toLowerCase()
+      .replace(/[^\w\s\u4e00-\u9fa5]/g, '')
+      .replace(/\s+/g, ' ')
+      .trim();
 
-    if (!seen.has(normalizedTitle) && normalizedTitle.length > 10) {
-      seen.add(normalizedTitle);
+    // 生成唯一 key：标题 + 来源
+    const uniqueKey = `${normalizedTitle}-${item.source}`;
+
+    // 标题太短不参与去重
+    if (normalizedTitle.length < 6) {
+      result.push(item);
+      continue;
+    }
+
+    if (!seen.has(uniqueKey)) {
+      seen.add(uniqueKey);
       result.push(item);
     }
   }
