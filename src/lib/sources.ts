@@ -105,6 +105,41 @@ export const NEWS_SOURCES: NewsSource[] = [
     url: 'https://xinzhiyuan.io/rss',
     category: '国内',
   },
+  {
+    name: 'CSDN',
+    url: 'https://blog.csdn.net/rss/list',
+    category: '国内',
+  },
+  {
+    name: '博客园',
+    url: 'https://www.cnblogs.com/rss',
+    category: '国内',
+  },
+  {
+    name: '开源中国',
+    url: 'https://www.oschina.net/news/rss',
+    category: '国内',
+  },
+  {
+    name: 'SegmentFault',
+    url: 'https://segmentfault.com/rss',
+    category: '国内',
+  },
+  {
+    name: '掘金',
+    url: 'https://juejin.cn/rss',
+    category: '国内',
+  },
+  {
+    name: '开发者头条',
+    url: 'https://toutiao.io/rss',
+    category: '国内',
+  },
+  {
+    name: '码农网',
+    url: 'https://www.manongw.com/rss',
+    category: '国内',
+  },
 ];
 
 // 热度权重配置

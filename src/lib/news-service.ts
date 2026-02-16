@@ -77,6 +77,13 @@ function calculateHotnessScore(item: NewsItem, now: number): number {
     '智东西': 73,
     '少数派': 68,
     '新智元': 72,
+    'CSDN': 65,
+    '博客园': 62,
+    '开源中国': 70,
+    'SegmentFault': 68,
+    '掘金': 65,
+    '开发者头条': 60,
+    '码农网': 58,
   };
   const sourceScore = authorityScores[item.source] || 60;
 

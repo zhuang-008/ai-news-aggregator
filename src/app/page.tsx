@@ -96,7 +96,7 @@ export default function Home() {
 
       {/* Footer */}
       <footer style={{ textAlign: 'center', padding: '2rem', color: '#64748b', fontSize: '0.875rem' }}>
-        <p>数据来源: 机器之心, 量子位, 36氪, 虎嗅网, 钛媒体, 雷锋网, InfoQ, 爱范儿, 极客公园, 智东西, 少数派, 新智元</p>
+        <p>数据来源: 机器之心, 量子位, 36氪, 虎嗅网, 钛媒体, 雷锋网, InfoQ, 爱范儿, 极客公园, 智东西, 少数派, 新智元, CSDN, 博客园, 开源中国, SegmentFault, 掘金, 开发者头条</p>
         <p style={{ marginTop: '0.5rem' }}>每 2 小时自动更新</p>
         {lastUpdate && (
           <p style={{ marginTop: '0.25rem', opacity: 0.7 }}>
