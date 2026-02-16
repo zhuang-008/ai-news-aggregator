@@ -9,11 +9,12 @@ export async function GET(request: Request) {
   const category = (searchParams.get('category') as '国内' | '全部') || '国内';
   const search = searchParams.get('search') || '';
   const limit = parseInt(searchParams.get('limit') || '100');
+  const refresh = searchParams.get('refresh') === 'true';
 
   try {
-    // 检查缓存
+    // 检查缓存（除非强制刷新）
     const now = Date.now();
-    if (cachedNews && now - cachedNews.timestamp < CACHE_DURATION) {
+    if (cachedNews && !refresh && now - cachedNews.timestamp < CACHE_DURATION) {
       let filteredNews = cachedNews.items;
 
       // 筛选当天新闻

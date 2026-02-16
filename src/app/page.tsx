@@ -59,6 +59,48 @@ export default function Home() {
         loading={loading}
       />
 
+      {/* Refresh Button */}
+      <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '1rem' }}>
+        <button
+          onClick={() => {
+            // 添加随机参数强制刷新
+            const params = new URLSearchParams();
+            params.set('category', category);
+            if (searchQuery) params.set('search', searchQuery);
+            params.set('limit', '100');
+            params.set('refresh', 'true');
+
+            setLoading(true);
+            fetch(`/api/news?${params.toString()}`)
+              .then(res => res.json())
+              .then(data => {
+                if (data.items) {
+                  setNews(data.items);
+                  setLastUpdate(new Date().toLocaleString('zh-CN'));
+                }
+              })
+              .catch(err => console.error('Error:', err))
+              .finally(() => setLoading(false));
+          }}
+          disabled={loading}
+          style={{
+            padding: '0.5rem 1.5rem',
+            backgroundColor: loading ? '#94a3b8' : '#3b82f6',
+            color: 'white',
+            border: 'none',
+            borderRadius: '0.375rem',
+            cursor: loading ? 'not-allowed' : 'pointer',
+            fontSize: '0.875rem',
+            fontWeight: 500,
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.5rem',
+          }}
+        >
+          {loading ? '刷新中...' : '刷新新闻'}
+        </button>
+      </div>
+
       {/* Category Filter */}
       <CategoryFilter
         activeCategory={category}
