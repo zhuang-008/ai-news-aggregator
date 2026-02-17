@@ -150,8 +150,11 @@ export async function fetchAllNews(): Promise<NewsItem[]> {
   // 合并所有新闻
   const allNews = allNewsArrays.flat();
 
+  // 过滤：只保留AI行业动态，过滤纯技术教程
+  const filteredNews = filterAINews(allNews);
+
   // 按热度排序
-  allNews.sort((a, b) => b.hotness - a.hotness);
+  filteredNews.sort((a, b) => b.hotness - a.hotness);
 
   // 翻译国外新闻标题（已禁用以加快加载速度）
   // const MAX_TRANSLATE = 50;
@@ -168,7 +171,7 @@ export async function fetchAllNews(): Promise<NewsItem[]> {
   //   }
   // }
 
-  return allNews;
+  return filteredNews;
 }
 
 // 获取当天的新闻（筛选24小时内的）
@@ -220,6 +223,106 @@ export function searchNews(news: NewsItem[], query: string): NewsItem[] {
       item.description.toLowerCase().includes(lowerQuery) ||
       item.source.toLowerCase().includes(lowerQuery)
   );
+}
+
+// 过滤规则：移除太技术性的内容，保留AI行业动态和新闻
+const AI_RELATED_KEYWORDS = [
+  // AI核心领域
+  'ai', '人工智能', '大模型', 'llm', 'gpt', 'chatgpt', 'claude', 'gemini',
+  '深度学习', '机器学习', '神经网络', '计算机视觉', '自然语言处理', 'nlp',
+  '语音识别', '图像生成', '文生图', '文生视频', 'sora', 'stable diffusion',
+  // AI公司/产品
+  'openai', 'anthropic', '谷歌', 'google', '微软', 'microsoft', '苹果',
+  '百度', '阿里', '腾讯', '字节', '华为', '商汤', '旷视', '讯飞',
+  // AI应用场景
+  '自动驾驶', '智能客服', '智能写作', 'ai写作', 'ai绘画', 'ai编程',
+  'ai视频', 'ai音乐', 'ai翻译', 'ai教育', 'ai医疗', 'ai招聘',
+  // AI行业动态
+  '融资', '投资', '收购', '上市', 'ipo', '估值', '亿美元',
+  '发布', '推出', '上线', '开放', '公测', '内测',
+  '监管', '法规', '政策', '欧盟', '美国', '中国', '全球',
+  '峰会', '论坛', '大会', '发布会在', '正式发布',
+];
+
+// 需要过滤的纯技术教程关键词
+const TECHNICAL_TUTORIAL_KEYWORDS = [
+  // 编程开发教程
+  '教程', '入门', '基础', '教学', '指南', '手把手', '学会',
+  '从零开始', '一步步', '快速上手', '小白', '初学者',
+  // 技术实现细节
+  '实现原理', '架构设计', '代码实现', '核心代码', '源码',
+  'api调用', '接口调用', 'sdk使用', '集成方法',
+  '部署教程', '安装配置', '环境搭建', '依赖安装',
+  // 具体技术栈
+  'pytorch', 'tensorflow', 'keras', 'transformers', 'huggingface',
+  'docker', 'kubernetes', '微服务', '云原生',
+  // 问题排查
+  '报错', 'bug', '修复', '排查', '调试', '优化性能',
+  '常见问题', '坑', '踩坑', '解决方',
+];
+
+// 检测标题或描述是否包含AI相关内容
+function isAIRelated(item: NewsItem): boolean {
+  const text = `${item.title} ${item.description}`.toLowerCase();
+
+  // 检查是否包含AI相关关键词
+  const hasAIKeyword = AI_RELATED_KEYWORDS.some(keyword =>
+    text.includes(keyword.toLowerCase())
+  );
+
+  return hasAIKeyword;
+}
+
+// 检测是否为纯技术教程（太技术性，不需要阅读的新闻）
+function isTechnicalTutorial(item: NewsItem): boolean {
+  const title = item.title.toLowerCase();
+  const desc = item.description.toLowerCase();
+  const text = `${title} ${desc}`;
+
+  // 检查是否包含技术教程关键词
+  const hasTutorialKeyword = TECHNICAL_TUTORIAL_KEYWORDS.some(keyword =>
+    title.includes(keyword.toLowerCase())
+  );
+
+  // 如果标题很短且包含教程关键词，很可能是教程
+  if (title.length < 15 && hasTutorialKeyword) {
+    return true;
+  }
+
+  // 包含"教程"、"入门"等词，且标题较短
+  if (title.length < 30 && /教程|入门|教学|指南/.test(title)) {
+    return true;
+  }
+
+  // 检测是否大量技术术语（超过3个不同的技术关键词）
+  const techTerms = [
+    'api', 'sdk', 'docker', 'kubernetes', 'k8s', '微服务', 'restful',
+    'orm', '缓存', '队列', '负载均衡', 'nginx', 'redis', 'mysql',
+    'mongodb', '前端', '后端', '全栈', 'crud', 'oauth', 'jwt',
+  ];
+  const techCount = techTerms.filter(term => text.includes(term)).length;
+  if (techCount >= 3) {
+    return true;
+  }
+
+  return false;
+}
+
+// 过滤新闻：只保留AI行业动态，过滤纯技术教程
+export function filterAINews(news: NewsItem[]): NewsItem[] {
+  return news.filter((item) => {
+    // 必须是AI相关内容
+    if (!isAIRelated(item)) {
+      return false;
+    }
+
+    // 过滤掉纯技术教程
+    if (isTechnicalTutorial(item)) {
+      return false;
+    }
+
+    return true;
+  });
 }
 
 // 分类筛选
