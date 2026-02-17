@@ -4,5 +4,11 @@
   "buildCommand": "npm run build",
   "devCommand": "npm run dev",
   "installCommand": "npm install",
-  "outputDirectory": ".next"
+  "outputDirectory": ".next",
+  "crons": [
+    {
+      "path": "/api/news?refresh=true",
+      "schedule": "0 */2 * * *"
+    }
+  ]
 }
