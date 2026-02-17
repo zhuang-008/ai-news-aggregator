@@ -153,20 +153,20 @@ export async function fetchAllNews(): Promise<NewsItem[]> {
   // 按热度排序
   allNews.sort((a, b) => b.hotness - a.hotness);
 
-  // 翻译国外新闻标题（限制前50条，避免 API 限制）
-  const MAX_TRANSLATE = 50;
-  let translatedCount = 0;
+  // 翻译国外新闻标题（已禁用以加快加载速度）
+  // const MAX_TRANSLATE = 50;
+  // let translatedCount = 0;
 
-  for (let i = 0; i < allNews.length && translatedCount < MAX_TRANSLATE; i++) {
-    if (allNews[i].category === '国外' && !allNews[i].isTranslated) {
-      allNews[i] = await translateNewsTitle(allNews[i]);
-      if (allNews[i].isTranslated) {
-        translatedCount++;
-      }
-      // 避免请求过快，添加延迟
-      await new Promise((resolve) => setTimeout(resolve, 200));
-    }
-  }
+  // for (let i = 0; i < allNews.length && translatedCount < MAX_TRANSLATE; i++) {
+  //   if (allNews[i].category === '国外' && !allNews[i].isTranslated) {
+  //     allNews[i] = await translateNewsTitle(allNews[i]);
+  //     if (allNews[i].isTranslated) {
+  //       translatedCount++;
+  //     }
+  //     // 避免请求过快，添加延迟
+  //     await new Promise((resolve) => setTimeout(resolve, 200));
+  //   }
+  // }
 
   return allNews;
 }

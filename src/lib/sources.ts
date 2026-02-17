@@ -2,48 +2,6 @@ import { NewsSource } from '@/types/news';
 
 // AI 新闻订阅源配置
 export const NEWS_SOURCES: NewsSource[] = [
-  // 国外源
-  {
-    name: 'VentureBeat AI',
-    url: 'https://venturebeat.com/category/ai/feed/',
-    category: '国外',
-  },
-  {
-    name: 'TechCrunch',
-    url: 'https://techcrunch.com/feed/',
-    category: '国外',
-  },
-  {
-    name: 'MIT Technology Review',
-    url: 'https://www.technologyreview.com/topic/artificial-intelligence/feed',
-    category: '国外',
-  },
-  {
-    name: 'OpenAI Blog',
-    url: 'https://openai.com/blog/rss.xml',
-    category: '国外',
-  },
-  {
-    name: 'Google AI Blog',
-    url: 'http://googleaiblog.blogspot.com/atom.xml',
-    category: '国外',
-  },
-  {
-    name: 'NVIDIA Blog',
-    url: 'https://blogs.nvidia.com/blog/category/deep-learning/feed/',
-    category: '国外',
-  },
-  {
-    name: 'Wired',
-    url: 'https://www.wired.com/feed/category/ai/latest/rss',
-    category: '国外',
-  },
-  {
-    name: 'The Verge',
-    url: 'https://www.theverge.com/rss/index.xml',
-    category: '国外',
-  },
-
   // 国内源
   {
     name: '机器之心',
@@ -53,11 +11,6 @@ export const NEWS_SOURCES: NewsSource[] = [
   {
     name: '量子位',
     url: 'https://www.qbitai.com/feed',
-    category: '国内',
-  },
-  {
-    name: '36氪',
-    url: 'https://36kr.com/feed/',
     category: '国内',
   },
   {
@@ -76,18 +29,8 @@ export const NEWS_SOURCES: NewsSource[] = [
     category: '国内',
   },
   {
-    name: 'InfoQ',
-    url: 'https://www.infoq.cn/rss',
-    category: '国内',
-  },
-  {
     name: '爱范儿',
     url: 'https://www.ifanr.com/feed',
-    category: '国内',
-  },
-  {
-    name: '极客公园',
-    url: 'https://www.geekpark.net/rss',
     category: '国内',
   },
   {
@@ -101,16 +44,6 @@ export const NEWS_SOURCES: NewsSource[] = [
     category: '国内',
   },
   {
-    name: '新智元',
-    url: 'https://xinzhiyuan.io/rss',
-    category: '国内',
-  },
-  {
-    name: 'CSDN',
-    url: 'https://blog.csdn.net/rss/list',
-    category: '国内',
-  },
-  {
     name: '博客园',
     url: 'https://www.cnblogs.com/rss',
     category: '国内',
@@ -121,23 +54,8 @@ export const NEWS_SOURCES: NewsSource[] = [
     category: '国内',
   },
   {
-    name: 'SegmentFault',
-    url: 'https://segmentfault.com/rss',
-    category: '国内',
-  },
-  {
     name: '掘金',
     url: 'https://juejin.cn/rss',
-    category: '国内',
-  },
-  {
-    name: '开发者头条',
-    url: 'https://toutiao.io/rss',
-    category: '国内',
-  },
-  {
-    name: '码农网',
-    url: 'https://www.manongw.com/rss',
     category: '国内',
   },
 ];
